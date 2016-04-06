@@ -1,4 +1,5 @@
 "use sctrict"
+      //Класс родитель
       function Machine(power) {
         this._power = power;
         this._enabled = false;
@@ -13,18 +14,20 @@
         }
       }
 
+      //Класс кофеварка
       function CoffeeMachine(power, waterAmount) {
-        Machine.call(this);
-        var WATER_HEAT_CAPACITY = 4200;
+        Machine.call(this);//Наследование
+        var WATER_HEAT_CAPACITY = 4200;// Удельная теплоемкость воды
         var timerId;
         
-
+        //Переопределение метода родителя
         var parentDisable = this.disable;
         this.disable = function() {
           parentDisable.call(this);
           clearTimeout(timerId);
         }
 
+        //Вывести сообщение о результате
         function ready() {
           counter++;
           var elem = document.querySelectorAll('.coffee');
@@ -36,12 +39,12 @@
              
         }
 
+        //Расчет времени для кипячения
         function getBoilTime() {
           return waterAmount * WATER_HEAT_CAPACITY * 80 /power;
         }
-
+        //Запустить кофеварку
         this.run = function() {
-          
           var div=document.createElement('div');
           div.setAttribute('class', 'coffee');
           div.innerHTML = '<h3>Your coffee is prepairing. Please wait...</h3>';
@@ -51,9 +54,9 @@
         }
       }
 
-
+      //Класс холодильник
       function Fridge(power) {
-        Machine.call(this);
+        Machine.call(this);//Наследование
 
         var food = [];
 
@@ -72,6 +75,7 @@
 
         }
 
+        //Посмотреть что в холодильнике
         this.getFood = function() {
           var resultArr = food.concat();
           var str='';
@@ -83,6 +87,7 @@
           document.body.appendChild(h3);
         }
 
+        //Отфильтровать еду в холодильнике
         this.filterFood = function(func) {
           var result = [];
           for(var i=0; i<food.length; i++) {
@@ -92,7 +97,7 @@
           }
           return result;
         }
-
+        //Вывести результат фильтрации
         this.getFiltered = function(arr) {
           var h3 = document.createElement('h3');
           var str = '';
@@ -103,6 +108,7 @@
           document.body.appendChild(h3);
         }
 
+        //Удалить еду из холодильника
         this.removeFood = function(item) {
           for(var i = 0; i<food.length; i++) {
             if(food[i] == item) {
@@ -111,6 +117,7 @@
           }
         }
 
+        //Переопределение метода родителя
         var newDisable = this.disable;
         this.disable = function() {
           newDisable.call(this);
@@ -120,6 +127,7 @@
             document.body.appendChild(h3);
           }
         }
+        //Переопределение метода родителя
         var newEnable = this.enable;
         this.enable = function() {
           newEnable.call(this);
