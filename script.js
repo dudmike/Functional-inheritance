@@ -2,7 +2,6 @@
       function Machine(power) {
         this._power = power;
         this._enabled = false;
-
         var self = this;
 
         self.enable = function() {
@@ -18,6 +17,7 @@
         Machine.call(this);
         var WATER_HEAT_CAPACITY = 4200;
         var timerId;
+        
 
         var parentDisable = this.disable;
         this.disable = function() {
@@ -26,9 +26,14 @@
         }
 
         function ready() {
-          if(this._enabled == false) {
-            alert('Error: CoffeeMachine is off');
-          } else alert('Coffee is ready!');
+          counter++;
+          var elem = document.querySelectorAll('.coffee');
+          if(this._enabled == false) {           
+            elem[counter].innerHTML ='<h3>CoffeeMachine is off</h3>';
+          } else {
+            elem[counter].innerHTML ='<h3>Your coffee is ready!</h3>';
+          }
+             
         }
 
         function getBoilTime() {
@@ -36,7 +41,13 @@
         }
 
         this.run = function() {
-          timerId = setTimeout(ready.bind(this), getBoilTime() );  
+          
+          var div=document.createElement('div');
+          div.setAttribute('class', 'coffee');
+          div.innerHTML = '<h3>Your coffee is prepairing. Please wait...</h3>';
+          document.body.appendChild(div);
+          timerId = setTimeout(ready.bind(this), getBoilTime() );
+         
         }
       }
 
@@ -139,7 +150,10 @@
       fridge.addFood('Pepper');
       fridge.enable();
 
-
+      var counter = -1;
       var coffeeMachine = new CoffeeMachine(10000, 200);
       coffeeMachine.enable();
       coffeeMachine.run();
+      var coffeeMachine2 = new CoffeeMachine(8000, 200);
+      coffeeMachine2.enable();
+      coffeeMachine2.run();
